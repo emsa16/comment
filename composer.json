@@ -1,15 +1,14 @@
 {
-    "name": "anax/comment",
+    "name": "emsa/comment",
     "type": "library",
-    "description": "Anax comment module.",
+    "description": "Comment module for Anax framework.",
     "keywords": ["boilerplate", "framework", "mvc", "micro", "education"],
-    "homepage": "https://dbwebb.se/anax",
     "license": "MIT",
     "authors": [
         {
             "name": "Emil Sandberg",
             "email": "emil.hietanen@gmail.com",
-            "homepage": "https://dbwebb.se",
+            "homepage": "http://emilsandberg.com",
             "role": "Developer"
         }
     ],
@@ -17,11 +16,19 @@
         "issues": "https://github.com/canax/comment/issues"
     },
     "autoload": {
-        "psr-4": { 
-            "Anax\\": "src/"
+        "psr-4": {
+            "Emsa\\": "src/"
         }
     },
     "require": {
-        "php": ">=5.6"
+        "php": ">=5.6",
+        "anax/request": "^1.0",
+        "anax/response": "^1.0",
+        "anax/view": "^1.0",
+        "anax/session": "^1.0",
+        "anax/textfilter": "^1.0",
+        "anax/di": "^1.0",
+        "lrc-se/anax-repository": "^1.1",
+        "anax/database": "^1.1"
     }
 }
