@@ -12,9 +12,6 @@
             "role": "Developer"
         }
     ],
-    "support": {
-        "issues": "https://github.com/canax/comment/issues"
-    },
     "autoload": {
         "psr-4": {
             "Emsa\\": "src/"

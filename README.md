@@ -13,6 +13,28 @@ Anax comment module.
 
 
 
+Installation
+------------------
+
+```
+mkdir config/di
+rsync -av vendor/emsa/comment/config/di.php config/di/comment.php
+rsync -av vendor/emsa/comment/config/route.php config/route/comment.php
+```
+
+```
+mkdir -p sql/ddl
+rsync -av vendor/emsa/comment/sql/mysql_default.sql sql/ddl/comment_mysql_default.sql
+```
+
+```
+mkdir content/comment
+rsync -av vendor/emsa/comment/content/* content/comment
+mkdir view/comment
+rsync -av vendor/emsa/comment/view/* view/comment
+```
+
+
 Usage
 ------------------
 
