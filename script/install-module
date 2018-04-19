@@ -2,19 +2,19 @@
 
 mkdir -p config/di
 rsync -av vendor/emsa/comment/config/di.php config/di/comment.php
-echo "Comment module added to DI container in config/di/comment.php"
+echo "DONE: Comment module added to DI container in config/di/comment.php"
 
 rsync -av vendor/emsa/comment/config/route.php config/route/comment.php
-echo "Comment module routes added in config/route/comment.php"
+echo "DONE: Comment module routes added in config/route/comment.php"
 
 mkdir -p sql/ddl
 rsync -av vendor/emsa/comment/sql/mysql_default.sql sql/ddl/comment_mysql_default.sql
-echo "Comment module SQL DDL added to sql/ddl/comment_mysql_default.sql"
+echo "DONE: Comment module SQL DDL added to sql/ddl/comment_mysql_default.sql"
 
 mkdir -p content/comment
 rsync -av vendor/emsa/comment/content/* content/comment
-echo "Comment module example pages added to content/comment"
+echo "DONE: Comment module example pages added to content/comment"
 
 mkdir -p view/comment
 rsync -av vendor/emsa/comment/view/* view/comment
-echo "Comment module example views added to view/comment"
+echo "DONE: Comment module example views added to view/comment"

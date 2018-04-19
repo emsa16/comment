@@ -211,7 +211,7 @@ class CommentController implements InjectionAwareInterface
 
         if ($this->di->request->getPost("upvote")) {
             $comment->upvote += 1;
-        } else if ($this->di->request->getPost("downvote")) {
+        } elseif ($this->di->request->getPost("downvote")) {
             $comment->downvote += 1;
         }
 
