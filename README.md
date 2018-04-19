@@ -12,27 +12,38 @@ Anax comment
 Anax comment module.
 
 
+Requirements
+------------------
+
+In order to use this module you need an Anax framework environment. Some of the modules required are not publically available, so it is not possible to use a default Anax setup. In order to try out the below steps, you can use the [test branch](https://github.com/emsa16/anax/tree/comment-test) of the author's own Anax repo. Clone the branch with:
+
+```
+git clone https://github.com/emsa16/anax.git -b comment-test
+cd comment-test
+```
+
+For the project to work the database needs to be setup. The DDL files necessary to fully run the comment module are `sql/ddl/comment_mysql_default.sql` and `sql/ddl/user_mysql_default.sql`.
+
 
 Installation
 ------------------
 
-```
-mkdir config/di
-rsync -av vendor/emsa/comment/config/di.php config/di/comment.php
-rsync -av vendor/emsa/comment/config/route.php config/route/comment.php
-```
+Install the module with the following command:
 
 ```
-mkdir -p sql/ddl
-rsync -av vendor/emsa/comment/sql/mysql_default.sql sql/ddl/comment_mysql_default.sql
+composer require emsa/comment
 ```
 
+
+Setup in Anax environment
+------------------
+
+Run the following command to automatically setup the module in your Anax installation (assumes a normal Anax project structure):
+
 ```
-mkdir content/comment
-rsync -av vendor/emsa/comment/content/* content/comment
-mkdir view/comment
-rsync -av vendor/emsa/comment/view/* view/comment
+make install-module module=emsa/comment
 ```
+The setup adds example pages and views that can be reached in the browser via the path `/comment`.
 
 
 Usage
