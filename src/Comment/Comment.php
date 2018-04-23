@@ -3,8 +3,9 @@
 namespace Emsa\Comment;
 
 use \LRC\Form\BaseModel;
-use \LRC\Form\ValidationTrait;
-use \LRC\Form\ValidationInterface;
+use \LRC\Repository\SoftManagedModelInterface;
+use \LRC\Repository\SoftManagedModelTrait;
+use \Emsa\User\User;
 
 /**
  * Comment class.
@@ -12,9 +13,9 @@ use \LRC\Form\ValidationInterface;
  * @SuppressWarnings(PHPMD.ExitExpression)
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class Comment extends BaseModel implements ValidationInterface
+class Comment extends BaseModel implements SoftManagedModelInterface
 {
-    use ValidationTrait;
+    use SoftManagedModelTrait;
 
     // public $id;
     public $post_id;
@@ -31,6 +32,14 @@ class Comment extends BaseModel implements ValidationInterface
 
     public function __construct()
     {
+        $this->setReferences([
+            'userObject' => [
+                'attribute' => 'user',
+                'model' => User::class,
+                'magic' => true
+            ]
+        ]);
+
         // $this->setNullables(['edited']);
         $this->setValidation([
             'content' => [

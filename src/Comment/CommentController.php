@@ -225,38 +225,28 @@ class CommentController implements InjectionAwareInterface
     {
         $comments = $this->comments->getAll('post_id = ?', [$postid]);
 
-        $users = $this->di->userController->init();
-
-        $username = $this->di->session->get("username");
-        $loggedInUser = $users->findSoft('username', $username);
-
+        $loggedInUser = $this->di->userController->getLoggedInUserId();
         foreach ($comments as $comment) {
-            // TEMP Nu görs en databasförfrågan för varje kommentar, effektivisera med vyer?
-            $user = $comment->getReference('user', $users, false);
-            $comment->user = [
-                'email' => $user->email,
-                'username' => $user->username,
-                'deleted' => $user->deleted,
-                'isOwner' => ($loggedInUser && $loggedInUser->username == $user->username),
-                'isAdmin' => $this->di->session->has("admin")
-            ];
+            $comment->isUserOwner = ($loggedInUser == $comment->userObject->id);
+            $comment->isUserAdmin = $this->di->session->has("admin");
         }
 
         $sortRequest = $this->di->request->getGet("sort");
         $sortRules = ["best", "old", "new"];
         $sortBy = in_array($sortRequest, $sortRules) ? $sortRequest : "best";
-        return $this->sort($comments, $sortBy);
+
+        return $this->buildCommentTree($comments, $sortBy);
     }
 
 
 
-    public function sort(array &$elements, $sortBy, $parentId = 0)
+    public function buildCommentTree(array &$elements, $sortBy, $parentId = 0)
     {
         $branch = array();
 
         foreach ($elements as $element) {
             if ($element->parent_id == $parentId) {
-                $children = $this->sort($elements, $sortBy, $element->id);
+                $children = $this->buildCommentTree($elements, $sortBy, $element->id);
                 if ($children) {
                     $element->children = $children;
                 }
@@ -265,13 +255,13 @@ class CommentController implements InjectionAwareInterface
                 // unset($elements[$element->id]);
             }
         }
-        $this->sortBranch($branch, $sortBy);
+        $this->sortBranchComments($branch, $sortBy);
         return $branch;
     }
 
 
 
-    public function sortBranch(array &$branch, $sortBy = "best")
+    public function sortBranchComments(array &$branch, $sortBy = "best")
     {
         $sortOrder = SORT_DESC;
         $sortArray = array();

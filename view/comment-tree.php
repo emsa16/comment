@@ -1,6 +1,6 @@
 <?php foreach ($comments as $comment) : ?>
     <?php
-    $email = !$comment->user['deleted'] ? $comment->user['email'] : 'deleted@example.com';
+    $email = !$comment->userObject->deleted ? $comment->userObject->email : 'deleted@example.com';
     $gravatarString = md5(strtolower(trim($email)));
     $points = ( (int)$comment->upvote - (int)$comment->downvote );
     $created = $comment->timeElapsedString($comment->created);
@@ -17,7 +17,7 @@
         <img src='http://www.gravatar.com/avatar/<?= $gravatarString ?>.jpg?d=identicon&s=40'>
 
         <div class='stats'>
-            <?= $points ?> poäng | av <?= !$comment->user['deleted']  ? $comment->user['username'] : '[raderad]' ?> | tillagd <?= $created . $edited ?>
+            <?= $points ?> poäng | av <?= !$comment->userObject->deleted ? $comment->userObject->username : '[raderad]' ?> | tillagd <?= $created . $edited ?>
         </div>
 
         <?php if ($action == "edit" && $actionID == $comment->id) : ?>
@@ -31,7 +31,7 @@
         <div class='actions'>
             <?php if ($isLoggedIn) : ?>
                 <a href='<?= $this->url("comment/$postid/reply?id={$comment->id}#{$comment->id}") ?>'>svara</a>
-                <?php if (!$comment->deleted && ($comment->user['isAdmin'] || $comment->user['isOwner'])) : ?>
+                <?php if (!$comment->deleted && ($comment->isUserOwner || $comment->isUserOwner)) : ?>
                     | <a href='<?= $this->url("comment/$postid/edit?id={$comment->id}#{$comment->id}") ?>'>redigera</a>
                     | <a href='<?= $this->url("comment/$postid/delete?id={$comment->id}#{$comment->id}") ?>'>radera</a>
                 <?php endif; ?>
