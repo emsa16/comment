@@ -56,6 +56,8 @@ The setup adds example pages and views that can be reached in the browser via th
 
 Finally, a Comment table needs to be manually added to the database, `sql/ddl/comment_mysql_default.sql` contains the necessary DDL for that.
 
+The comment functionality can now be demoed under `/comment/1` and `/comment/2`.
+
 
 Usage
 ------------------

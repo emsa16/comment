@@ -7,12 +7,12 @@ namespace Emsa\Comment;
  */
 class CommentControllerTest extends \PHPUnit_Framework_TestCase
 {
-    protected $comments;
-
     /**
      * Test case
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    protected function setUp()
+    public function testSortBranchComments()
     {
         $comment1 = new Comment();
         $comment1->post_id = 1;
@@ -89,7 +89,7 @@ class CommentControllerTest extends \PHPUnit_Framework_TestCase
         $comment5->isUserAdmin = false;
         $comment5->children = [];
 
-        $this->branchComments = [
+        $branchComments = [
             5 => $comment1,
             7 => $comment2,
             15 => $comment3,
@@ -97,6 +97,55 @@ class CommentControllerTest extends \PHPUnit_Framework_TestCase
             12 => $comment5
         ];
 
+        $sortedByBest = [
+            $branchComments[15],
+            $branchComments[7],
+            $branchComments[12],
+            $branchComments[5],
+            $branchComments[23],
+        ];
+        $sortedByOld = [
+            $branchComments[7],
+            $branchComments[12],
+            $branchComments[5],
+            $branchComments[23],
+            $branchComments[15],
+        ];
+        $sortedByNew = [
+            $branchComments[15],
+            $branchComments[23],
+            $branchComments[5],
+            $branchComments[12],
+            $branchComments[7],
+        ];
+        $sortedByDefault = [
+            $branchComments[15],
+            $branchComments[7],
+            $branchComments[12],
+            $branchComments[5],
+            $branchComments[23],
+        ];
+
+        $commentController = new CommentController();
+        $di = new \Anax\DI\DIFactoryConfigMagic();
+        $commentController->setDI($di);
+
+        $commentController->sortBranchComments($branchComments, "best");
+        $this->assertEquals($sortedByBest, $branchComments);
+        $commentController->sortBranchComments($branchComments, "old");
+        $this->assertEquals($sortedByOld, $branchComments);
+        $commentController->sortBranchComments($branchComments, "new");
+        $this->assertEquals($sortedByNew, $branchComments);
+        $commentController->sortBranchComments($branchComments);
+        $this->assertEquals($sortedByDefault, $branchComments);
+    }
+
+
+    /**
+     * Test case
+     */
+    public function testbuildCommentTree()
+    {
         $comment6 = new Comment();
         $comment6->post_id = 2;
         $comment6->parent_id = 0;
@@ -153,66 +202,8 @@ class CommentControllerTest extends \PHPUnit_Framework_TestCase
         $comment9->isUserOwner = true;
         $comment9->isUserAdmin = false;
 
-        $this->comments = [$comment6, $comment7, $comment8, $comment9];
-    }
+        $comments = [$comment6, $comment7, $comment8, $comment9];
 
-    /**
-     * Test case
-     */
-    public function testSortBranchComments()
-    {
-        $commentController = new CommentController();
-        $di = new \Anax\DI\DIFactoryConfigMagic([
-            "services" => [
-            ]
-        ]);
-        $commentController->setDI($di);
-
-        $sortedByBest = [
-            $this->branchComments[15],
-            $this->branchComments[7],
-            $this->branchComments[12],
-            $this->branchComments[5],
-            $this->branchComments[23],
-        ];
-        $sortedByOld = [
-            $this->branchComments[7],
-            $this->branchComments[12],
-            $this->branchComments[5],
-            $this->branchComments[23],
-            $this->branchComments[15],
-        ];
-        $sortedByNew = [
-            $this->branchComments[15],
-            $this->branchComments[23],
-            $this->branchComments[5],
-            $this->branchComments[12],
-            $this->branchComments[7],
-        ];
-        $sortedByDefault = [
-            $this->branchComments[15],
-            $this->branchComments[7],
-            $this->branchComments[12],
-            $this->branchComments[5],
-            $this->branchComments[23],
-        ];
-
-        $commentController->sortBranchComments($this->branchComments, "best");
-        $this->assertEquals($sortedByBest, $this->branchComments);
-        $commentController->sortBranchComments($this->branchComments, "old");
-        $this->assertEquals($sortedByOld, $this->branchComments);
-        $commentController->sortBranchComments($this->branchComments, "new");
-        $this->assertEquals($sortedByNew, $this->branchComments);
-        $commentController->sortBranchComments($this->branchComments);
-        $this->assertEquals($sortedByDefault, $this->branchComments);
-    }
-
-
-    /**
-     * Test case
-     */
-    public function testbuildCommentTree()
-    {
         $commentController = new CommentController();
         $di = new \Anax\DI\DIFactoryConfigMagic([
             "services" => [
@@ -221,13 +212,13 @@ class CommentControllerTest extends \PHPUnit_Framework_TestCase
         $commentController->setDI($di);
 
         $correctCommentTree = [
-            $this->comments[0],
-            $this->comments[1],
-            $this->comments[3]
+            $comments[0],
+            $comments[1],
+            $comments[3]
         ];
-        $correctCommentTree[1]->children = $this->comments[2];
+        $correctCommentTree[1]->children = $comments[2];
 
-        $commentTree = $commentController->buildCommentTree($this->comments, "best");
+        $commentTree = $commentController->buildCommentTree($comments, "best");
         $this->assertEquals($correctCommentTree, $commentTree);
     }
 }
