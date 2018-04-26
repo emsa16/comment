@@ -3,7 +3,7 @@ Anax comment
 
 [![Latest Stable Version](https://poser.pugx.org/emsa/comment/v/stable)](https://packagist.org/packages/emsa/comment)
 [![Build Status](https://travis-ci.org/emsa16/comment.svg?branch=master)](https://travis-ci.org/emsa16/comment)
-[![CircleCI](https://circleci.com/gh/canax/comment.svg?style=svg)](https://circleci.com/gh/canax/comment)
+[![CircleCI](https://circleci.com/gh/emsa16/comment.svg?style=svg)](https://circleci.com/gh/emsa16/comment)
 [![Build Status](https://scrutinizer-ci.com/g/canax/comment/badges/build.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/canax/comment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/canax/comment/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/?branch=master)

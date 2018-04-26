@@ -4,3 +4,4 @@
 memory::
 composer.lock
 .DS_Store
+circle.yml
