@@ -4,9 +4,9 @@ Anax comment
 [![Latest Stable Version](https://poser.pugx.org/emsa/comment/v/stable)](https://packagist.org/packages/emsa/comment)
 [![Build Status](https://travis-ci.org/emsa16/comment.svg?branch=master)](https://travis-ci.org/emsa16/comment)
 [![CircleCI](https://circleci.com/gh/emsa16/comment.svg?style=svg)](https://circleci.com/gh/emsa16/comment)
-[![Build Status](https://scrutinizer-ci.com/g/canax/comment/badges/build.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/canax/comment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/canax/comment/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/canax/comment/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/emsa16/comment/badges/build.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/emsa16/comment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/emsa16/comment/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/?branch=master)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/d831fd4c-b7c6-4ff0-9a83-102440af8929/mini.png)](https://insight.sensiolabs.com/projects/d831fd4c-b7c6-4ff0-9a83-102440af8929)
 
 Anax comment module.
