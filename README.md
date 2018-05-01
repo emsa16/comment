@@ -4,13 +4,17 @@ Anax comment
 [![Latest Stable Version](https://poser.pugx.org/emsa/comment/v/stable)](https://packagist.org/packages/emsa/comment)
 [![Build Status](https://travis-ci.org/emsa16/comment.svg?branch=master)](https://travis-ci.org/emsa16/comment)
 [![CircleCI](https://circleci.com/gh/emsa16/comment.svg?style=svg)](https://circleci.com/gh/emsa16/comment)
+
 [![Build Status](https://scrutinizer-ci.com/g/emsa16/comment/badges/build.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/emsa16/comment/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/emsa16/comment/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/emsa16/comment/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8/mini.png)](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e816bd30b438ff0f47e/maintainability)](https://codeclimate.com/github/emsa16/comment/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/2e816bd30b438ff0f47e/test_coverage)](https://codeclimate.com/github/emsa16/comment/test_coverage)
 [![Issue Count](https://codeclimate.com/github/emsa16/comment/badges/issue_count.svg)](https://codeclimate.com/github/emsa16/comment)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2e816bd30b438ff0f47e/test_coverage)](https://codeclimate.com/github/emsa16/comment/test_coverage)
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8/mini.png)](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8)
+
 
 
 Anax comment module.
