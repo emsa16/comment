@@ -10,13 +10,6 @@ Anax comment
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8/mini.png)](https://insight.sensiolabs.com/projects/1f586574-2948-4b9f-9fdb-b5e62a918ba8)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2e816bd30b438ff0f47e/maintainability)](https://codeclimate.com/github/emsa16/comment/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2e816bd30b438ff0f47e/test_coverage)](https://codeclimate.com/github/emsa16/comment/test_coverage)
-
-gamla maintainability
-
-[![Code Climate](https://codeclimate.com/github/emsa16/comment/badges/gpa.svg)](https://codeclimate.com/github/emsa16/comment)
-
-står bara som code climate
-
 [![Issue Count](https://codeclimate.com/github/emsa16/comment/badges/issue_count.svg)](https://codeclimate.com/github/emsa16/comment)
 
 
