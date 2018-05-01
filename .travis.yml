@@ -53,7 +53,7 @@ script:
 
 
 after_script:
-    - ./cc-test-reporter after-build -d -p '/home/travis/build/emsa16/comment/build' --exit-code $TRAVIS_TEST_RESULT
+    - ./cc-test-reporter after-build -d -t clover --exit-code $TRAVIS_TEST_RESULT
 
 
 # notifications:
