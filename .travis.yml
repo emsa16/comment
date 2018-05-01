@@ -38,6 +38,7 @@ matrix:
 env:
   global:
     - CC_TEST_REPORTER_ID=5c878564db8b30478c80b34d6a237675fd16fd7872877fbc4d90279f35ee4b9e
+    # - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 
 
 before_script:
@@ -51,9 +52,11 @@ script:
     - make check
     - make test
 
+    # - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
+
 
 after_script:
-    - ./cc-test-reporter after-build -d -t clover --exit-code $TRAVIS_TEST_RESULT
+    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 
 # notifications:
