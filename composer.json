@@ -15,7 +15,8 @@
     "autoload": {
         "psr-4": {
             "Emsa\\": "src/",
-            "LRC\\": "src/"
+            "LRC\\": "test/",
+            "Emsa\\User\\": "test/User"
         }
     },
     "require": {

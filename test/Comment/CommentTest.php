@@ -5,7 +5,7 @@ namespace Emsa\Comment;
 /**
  * Test cases for class Guess.
  */
-class CommentTest extends \PHPUnit_Framework_TestCase
+class CommentTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test case

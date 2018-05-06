@@ -5,8 +5,40 @@ namespace Emsa\Comment;
 /**
  * Test cases for class Guess.
  */
-class CommentControllerTest extends \PHPUnit_Framework_TestCase
+class CommentControllerTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Test case
+     */
+    public function testInit()
+    {
+        $di = new \Anax\DI\DIFactoryConfigMagic([
+            "services" => [
+                'manager' => [
+                    'shared' => true,
+                    'callback' => function () {
+                        $obj = new \LRC\Repository\RepositoryManager();
+                        return $obj;
+                    }
+                ],
+                "db" => [
+                    "shared" => true,
+                    "callback" => function () {
+                        $obj = new \Anax\Database\DatabaseQueryBuilder();
+                        // $obj->configure("database.php");
+                        return $obj;
+                    }
+                ],
+            ]
+        ]);
+        $commentController = new CommentController();
+        $commentController->setDI($di);
+        $commentRepository = $commentController->init();
+        $this->assertInstanceOf(\LRC\Repository\DbRepository::class, $commentRepository);
+    }
+
+
+
     /**
      * Test case
      *
@@ -221,4 +253,63 @@ class CommentControllerTest extends \PHPUnit_Framework_TestCase
         $commentTree = $commentController->buildCommentTree($comments, "best");
         $this->assertEquals($correctCommentTree, $commentTree);
     }
+
+
+
+    public function testSortBy()
+    {
+        $di = new \Anax\DI\DIFactoryConfigMagic([
+            "services" => [
+                "request" => [
+                    "shared" => true,
+                    "callback" => function () {
+                        $request = new class {
+                            public function getGet($query)
+                            {
+                                if ($query == "sort") {
+                                    return "new";
+                                }
+                            }
+
+                        };
+                        return $request;
+                    }
+                ],
+            ]
+        ]);
+        $commentController = new CommentController();
+        $commentController->setDI($di);
+        $sortBy = $commentController->sortBy();
+        $this->assertEquals("new", $sortBy);
+    }
+
+
+    // 
+    // public function testGetComments()
+    // {
+    //     $di = new \Anax\DI\DIFactoryConfigMagic([
+    //         "services" => [
+    //             'manager' => [
+    //                 'shared' => true,
+    //                 'callback' => function () {
+    //                     $obj = new \LRC\Repository\RepositoryManager();
+    //                     return $obj;
+    //                 }
+    //             ],
+    //             "db" => [
+    //                 "shared" => true,
+    //                 "callback" => function () {
+    //                     $obj = new \Anax\Database\DatabaseQueryBuilder();
+    //                     // $obj->configure("database.php");
+    //                     return $obj;
+    //                 }
+    //             ],
+    //         ]
+    //     ]);
+    //     $commentController = new CommentController();
+    //     $commentController->setDI($di);
+    //     $commentController->init();
+    //     $sortBy = $commentController->sortBy();
+    //     $this->assertEquals("new", $sortBy);
+    // }
 }
