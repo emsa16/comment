@@ -250,20 +250,16 @@ class CommentController implements InjectionAwareInterface
 
         foreach ($elements as $element) {
             if ($element->parent_id == $parentId) {
-                $children = $this->buildCommentTree($elements, $sortBy, $element->id);
-                if (!empty($children)) {
-                    $element->children = $children;
-                }
+                $element->children = $this->buildCommentTree($elements, $sortBy, $element->id);
                 $branch[$element->id] = $element;
             }
         }
-        $this->sortBranchComments($branch, $sortBy);
-        return $branch;
+        return $this->sortBranchComments($branch, $sortBy);
     }
 
 
 
-    public function sortBranchComments(array &$branch, $sortBy = "best")
+    public function sortBranchComments(array $branch, $sortBy = "best")
     {
         $sortOrder = SORT_DESC;
         $sortArray = array();
@@ -283,5 +279,6 @@ class CommentController implements InjectionAwareInterface
             }
         }
         array_multisort($sortArray, $sortOrder, $branch);
+        return $branch;
     }
 }

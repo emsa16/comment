@@ -45,7 +45,7 @@
         <?php endif; ?>
 
         <div class='children'>
-            <?php if (isset($comment->children)) : ?>
+            <?php if (!empty($comment->children)) : ?>
                 <?= $this->renderView('comment/comment-tree', ["comments" => $comment->children, "textfilter" => $textfilter, "postid" => $postid, "action" => $action, "actionID" => $actionID, "form" => $form, "isLoggedIn" => $isLoggedIn]) ?>
             <?php endif; ?>
         </div>
