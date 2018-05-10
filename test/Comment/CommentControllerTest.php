@@ -195,7 +195,7 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
         $comment7->id = 4;
         $comment7->created = '2016-07-21 12:00:00';
         $comment7->edited = null;
-        $comment7->upvote = 3;
+        $comment7->upvote = 5;
         $comment7->downvote = 2;
         $comment7->deleted = null;
         $comment7->isUserOwner = true;
@@ -239,13 +239,17 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
         $commentController->setDI($di);
 
         $correctCommentTree = [
-            $comments[0],
             $comments[1],
+            $comments[0],
             $comments[3]
         ];
-        $correctCommentTree[1]->children = $comments[2];
+        $correctCommentTree[0]->children = [$comments[2]];
+        $correctCommentTree[0]->children[0]->children = array();
+        $correctCommentTree[1]->children = array();
+        $correctCommentTree[2]->children = array();
 
         $commentTree = $commentController->buildCommentTree($comments, "best");
+
         $this->assertEquals($correctCommentTree, $commentTree);
     }
 
