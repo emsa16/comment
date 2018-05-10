@@ -124,7 +124,7 @@ class CommentController implements InjectionAwareInterface
         }
 
         $loggedInUser = $this->di->userController->getLoggedInUserId();
-        if ($loggedInUser != $currentComment->user && !$this->di->session->has("admin")) {
+        if (!$this->canComment($loggedInUser, $currentComment)) {
             $this->di->response->redirect("comment/$postid");
         }
 
@@ -169,7 +169,7 @@ class CommentController implements InjectionAwareInterface
         }
 
         $loggedInUser = $this->di->userController->getLoggedInUserId();
-        if ($loggedInUser != $currentComment->user && !$this->di->session->has("admin")) {
+        if (!$this->canComment($loggedInUser, $currentComment)) {
             $this->di->response->redirect("comment/$postid");
         }
 
@@ -251,10 +251,6 @@ class CommentController implements InjectionAwareInterface
         foreach ($elements as $element) {
             if ($element->parent_id == $parentId) {
                 $element->children = $this->buildCommentTree($elements, $sortBy, $element->id);
-                // $children = $this->buildCommentTree($elements, $sortBy, $element->id);
-                // if (!empty($children)) {
-                //     $element->children = $children;
-                // }
                 $branch[$element->id] = $element;
             }
         }
@@ -284,5 +280,12 @@ class CommentController implements InjectionAwareInterface
         }
         array_multisort($sortArray, $sortOrder, $branch);
         return $branch;
+    }
+
+
+
+    public function canComment($user, $comment)
+    {
+        return $user == $comment->user || $this->di->session->has("admin");
     }
 }

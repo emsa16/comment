@@ -31,7 +31,7 @@
         <div class='actions'>
             <?php if ($isLoggedIn) : ?>
                 <a href='<?= $this->url("comment/$postid/reply?id={$comment->id}#{$comment->id}") ?>'>svara</a>
-                <?php if (!$comment->deleted && ($comment->isUserOwner || $comment->isUserOwner)) : ?>
+                <?php if (!$comment->deleted && ($comment->isUserOwner || $comment->isUserAdmin)) : ?>
                     | <a href='<?= $this->url("comment/$postid/edit?id={$comment->id}#{$comment->id}") ?>'>redigera</a>
                     | <a href='<?= $this->url("comment/$postid/delete?id={$comment->id}#{$comment->id}") ?>'>radera</a>
                 <?php endif; ?>

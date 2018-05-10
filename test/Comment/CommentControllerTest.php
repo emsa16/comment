@@ -21,7 +21,7 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
                 ],
                 "db" => [
                     "callback" => function () {
-                        return new \Anax\Database\DatabaseQueryBuilder();
+                        return new \Emsa\Database();
                     }
                 ],
             ]
@@ -232,10 +232,7 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
         $comments = [$comment6, $comment7, $comment8, $comment9];
 
         $commentController = new CommentController();
-        $di = new \Anax\DI\DIFactoryConfigMagic([
-            "services" => [
-            ]
-        ]);
+        $di = new \Anax\DI\DIFactoryConfigMagic();
         $commentController->setDI($di);
 
         $correctCommentTree = [
@@ -285,8 +282,7 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
                 ],
                 "db" => [
                     "callback" => function () {
-                        $obj = new \Anax\Database\DatabaseQueryBuilder();
-                        return $obj;
+                        return new \Emsa\Database();
                     }
                 ],
                 "session" => [
@@ -347,5 +343,30 @@ class CommentControllerTest extends \PHPUnit\Framework\TestCase
         $comments = $commentController->getComments(2, 3);
 
         $this->assertEquals($correctComments, $comments);
+    }
+
+
+
+    public function testCanComment()
+    {
+        $di = new \Anax\DI\DIFactoryConfigMagic([
+            "services" => [
+                "session" => [
+                    "callback" => function () {
+                        return new \Emsa\Session();
+                    }
+                ],
+            ]
+        ]);
+        $commentController = new CommentController();
+        $commentController->setDI($di);
+
+        $userID = 3;
+
+        $comment = new Comment();
+        $comment->user = 3;
+
+        $canComment = $commentController->canComment($userID, $comment);
+        $this->assertEquals(true, $canComment);
     }
 }

@@ -29,6 +29,7 @@ require_once 'Form/ModelForm.php';
 require_once 'User/User.php';
 require_once 'Request/Request.php';
 require_once 'Session/Session.php';
+require_once 'Database/Database.php';
 require_once 'Repository/RepositoryManager.php';
 require_once 'Repository/DbRepository.php';
 require_once 'Repository/SoftManagedModelInterface.php';
