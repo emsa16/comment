@@ -39,7 +39,7 @@
         </div>
 
         <?php if ($action == "reply" && $actionID == $comment->id) : ?>
-            <?= $this->renderView('comment/form', ["method" => "reply", "submit" => "Skicka", "postid" => $postid, "parent_id" => $comment->id, "form" => $form]) ?>
+            <?= $this->renderView('comment/form', ["method" => "reply?id={$comment->id}", "submit" => "Skicka", "postid" => $postid, "parent_id" => $comment->id, "form" => $form]) ?>
         <?php elseif ($action == "delete" && $actionID == $comment->id) : ?>
             <?= $this->renderView("comment/delete", ["comment" => $comment, "method" => "delete?id={$comment->id}"]) ?>
         <?php endif; ?>

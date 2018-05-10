@@ -40,14 +40,15 @@ class CommentController implements InjectionAwareInterface
 
     public function showComments($postid)
     {
-        $newForm = new ModelForm('new-comment-form', Comment::class);
         $loggedInUser = $this->di->userController->getLoggedInUserId();
 
-        if ($this->di->request->getMethod() == 'POST' && $this->di->session->has("username")) {
+        $newForm = new ModelForm('new-comment-form', Comment::class);
+
+        if ($this->di->request->getMethod() == 'POST' && $loggedInUser) {
             $comment = $newForm->populateModel();
+            $comment->user = $loggedInUser;
             $newForm->validate();
             if ($newForm->isValid()) {
-                $comment->user = $loggedInUser;
                 $this->comments->save($comment);
                 $this->di->response->redirect("comment/$postid#{$comment->id}");
             }
@@ -55,16 +56,15 @@ class CommentController implements InjectionAwareInterface
 
         $comments = $this->getComments($postid, $loggedInUser);
         $sortBy = $this->sortBy();
-        $sortedComments = $this->buildCommentTree($comments, $sortBy);
 
         $viewData = [
-            "comments" => $sortedComments,
+            "comments" => $this->buildCommentTree($comments, $sortBy),
             "textfilter" => $this->di->textfilter,
             "postid" => $postid,
             "action" => "",
             "actionID" => "",
             "newForm" => $newForm,
-            "isLoggedIn" => $this->di->session->has("username")
+            "isLoggedIn" => $loggedInUser
         ];
 
         $this->di->view->add("comment/comment-section", $viewData, "main", 2);
@@ -74,10 +74,13 @@ class CommentController implements InjectionAwareInterface
 
     public function replyComment($postid)
     {
-        $actionID = (int)$this->di->request->getGet("id");
         $loggedInUser = $this->di->userController->getLoggedInUserId();
+        if (is_null($loggedInUser)) {
+            $this->di->response->redirect("comment/$postid");
+        }
 
-        if ($this->di->request->getMethod() == 'GET' && (!$this->comments->find('id', $actionID) || !$this->di->session->has("username"))) {
+        $actionID = (int)$this->di->request->getGet("id");
+        if (!$this->comments->findSoft('id', $actionID)) {
             $this->di->response->redirect("comment/$postid");
         }
 
@@ -85,29 +88,26 @@ class CommentController implements InjectionAwareInterface
 
         if ($this->di->request->getMethod() == 'POST') {
             $comment = $replyForm->populateModel();
+            $comment->user = $loggedInUser;
             $replyForm->validate();
             if ($replyForm->isValid()) {
-                $comment->user = $loggedInUser;
                 $this->comments->save($comment);
                 $this->di->response->redirect("comment/$postid#{$comment->id}");
             }
         }
 
-        $newForm = new ModelForm('new-comment-form', Comment::class);
-
         $comments = $this->getComments($postid, $loggedInUser);
         $sortBy = $this->sortBy();
-        $sortedComments = $this->buildCommentTree($comments, $sortBy);
 
         $viewData = [
-            "comments" => $sortedComments,
+            "comments" => $this->buildCommentTree($comments, $sortBy),
             "textfilter" => $this->di->textfilter,
             "postid" => $postid,
             "action" => "reply",
             "actionID" => $actionID,
-            "newForm" => $newForm,
+            "newForm" => new ModelForm('new-comment-form', Comment::class),
             "replyForm" => $replyForm,
-            "isLoggedIn" => $this->di->session->has("username")
+            "isLoggedIn" => $loggedInUser
         ];
 
         $this->di->view->add("comment/comment-section", $viewData, "main", 2);
@@ -118,7 +118,6 @@ class CommentController implements InjectionAwareInterface
     public function editComment($postid)
     {
         $actionID = (int)$this->di->request->getGet("id");
-
         $currentComment = $this->comments->findSoft('id', $actionID);
         if (!$currentComment) {
             $this->di->response->redirect("comment/$postid");
@@ -142,21 +141,18 @@ class CommentController implements InjectionAwareInterface
             }
         }
 
-        $newForm = new ModelForm('new-comment-form', Comment::class);
-
         $comments = $this->getComments($postid, $loggedInUser);
         $sortBy = $this->sortBy();
-        $sortedComments = $this->buildCommentTree($comments, $sortBy);
 
         $viewData = [
-            "comments" => $sortedComments,
+            "comments" => $this->buildCommentTree($comments, $sortBy),
             "textfilter" => $this->di->textfilter,
             "postid" => $postid,
             "action" => "edit",
             "actionID" => $actionID,
-            "newForm" => $newForm,
+            "newForm" => new ModelForm('new-comment-form', Comment::class),
             "editForm" => $editForm,
-            "isLoggedIn" => $this->di->session->has("username")
+            "isLoggedIn" => $loggedInUser
         ];
 
         $this->di->view->add("comment/comment-section", $viewData, "main", 2);
@@ -167,7 +163,6 @@ class CommentController implements InjectionAwareInterface
     public function deleteComment($postid)
     {
         $actionID = (int)$this->di->request->getGet("id");
-
         $currentComment = $this->comments->findSoft('id', $actionID);
         if (!$currentComment) {
             $this->di->response->redirect("comment/$postid");
@@ -179,26 +174,23 @@ class CommentController implements InjectionAwareInterface
         }
 
         if ($this->di->request->getMethod() == 'POST') {
-            if ($this->di->request->getPost('delete') == 'Ja') {
+            if ($this->di->request->getPost('delete') == 'delete') {
                 $this->comments->deleteSoft($currentComment);
             }
             $this->di->response->redirect("comment/$postid#{$currentComment->id}");
         }
 
-        $newForm = new ModelForm('new-comment-form', Comment::class);
-
         $comments = $this->getComments($postid, $loggedInUser);
         $sortBy = $this->sortBy();
-        $sortedComments = $this->buildCommentTree($comments, $sortBy);
 
         $viewData = [
-            "comments" => $sortedComments,
+            "comments" => $this->buildCommentTree($comments, $sortBy),
             "textfilter" => $this->di->textfilter,
             "postid" => $postid,
             "action" => "delete",
             "actionID" => $actionID,
-            "newForm" => $newForm,
-            "isLoggedIn" => $this->di->session->has("username")
+            "newForm" => new ModelForm('new-comment-form', Comment::class),
+            "isLoggedIn" => $loggedInUser
         ];
 
         $this->di->view->add("comment/comment-section", $viewData, "main", 2);
@@ -208,25 +200,23 @@ class CommentController implements InjectionAwareInterface
 
     public function voteComment($postid)
     {
-        $actionID = (int)$this->di->request->getGet("id");
-
-        $comment = $this->comments->findSoft('id', $actionID);
-        if (!$comment) {
+        if (is_null($this->di->userController->getLoggedInUserId())) {
             $this->di->response->redirect("comment/$postid");
         }
 
-        if (!$this->di->session->has("username")) {
+        $actionID = (int)$this->di->request->getGet("id");
+        $currentComment = $this->comments->findSoft('id', $actionID);
+        if (!$currentComment) {
             $this->di->response->redirect("comment/$postid");
         }
 
         if ($this->di->request->getPost("upvote")) {
-            $comment->upvote += 1;
+            $currentComment->upvote += 1;
         } elseif ($this->di->request->getPost("downvote")) {
-            $comment->downvote += 1;
+            $currentComment->downvote += 1;
         }
-
-        $this->comments->save($comment);
-        $this->di->response->redirect("comment/$postid#{$comment->id}");
+        $this->comments->save($currentComment);
+        $this->di->response->redirect("comment/$postid#{$currentComment->id}");
     }
 
 
@@ -265,8 +255,6 @@ class CommentController implements InjectionAwareInterface
                     $element->children = $children;
                 }
                 $branch[$element->id] = $element;
-                // Ingen aning varför jag haft unset tidigare, och nu funkar det inte som tidigare heller
-                // unset($elements[$element->id]);
             }
         }
         $this->sortBranchComments($branch, $sortBy);

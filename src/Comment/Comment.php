@@ -53,16 +53,14 @@ class Comment extends BaseModel implements SoftManagedModelInterface
 
 
 
-    public function timeElapsedString($datetime, $full = false)
+    public function timeElapsedString($datetime)
     {
         $now = new \DateTime;
         $ago = new \DateTime($datetime);
         $diff = $now->diff($ago);
-
         $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7; //??????
 
-        $string = array(
+        $timeValues = array(
             'y' => ['år', 'år'],
             'm' => ['månad', 'månader'],
             'w' => ['vecka', 'veckor'],
@@ -72,19 +70,14 @@ class Comment extends BaseModel implements SoftManagedModelInterface
             's' => ['sekund', 'sekunder'],
         );
 
-        foreach ($string as $k => &$v) {
-            if ($diff->$k) {
+        foreach ($timeValues as $k => &$v) {
+            if ($diff->$k != 0) {
                 $singPlur = $diff->$k > 1 ? 1 : 0;
-                $v = $diff->$k . ' ' . $v[$singPlur];
-            } else {
-                unset($string[$k]);
+                $string = $diff->$k . ' ' . $v[$singPlur] . ' sedan';
+                break;
             }
         }
 
-        if (!$full) {
-            $string = array_slice($string, 0, 1);
-        }
-
-        return $string ? implode(', ', $string) . ' sedan' : 'nyligen';
+        return isset($string) ? $string : 'nyligen';
     }
 }

@@ -22,3 +22,14 @@ require ANAX_INSTALL_PATH . "/vendor/autoload.php";
 /**
  * Include other files to test, for example mock files.
  */
+require_once 'Form/ValidationTrait.php';
+require_once 'Form/ValidationInterface.php';
+require_once 'Form/BaseModel.php';
+require_once 'Form/ModelForm.php';
+require_once 'User/User.php';
+require_once 'Request/Request.php';
+require_once 'Session/Session.php';
+require_once 'Repository/RepositoryManager.php';
+require_once 'Repository/DbRepository.php';
+require_once 'Repository/SoftManagedModelInterface.php';
+require_once 'Repository/SoftManagedModelTrait.php';

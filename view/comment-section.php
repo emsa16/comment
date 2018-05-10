@@ -2,7 +2,7 @@
 $form = "";
 if (isset($editForm)) {
     $form = $editForm;
-} else if (isset($replyForm)) {
+} elseif (isset($replyForm)) {
     $form = $replyForm;
 }
 ?>
